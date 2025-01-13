@@ -22,6 +22,8 @@ User management and authentication service for the Next Step platform. Handles u
    SPRING_DATASOURCE_USERNAME=myuser
    SPRING_DATASOURCE_PASSWORD=secret
    FIREBASE_CONFIG_PATH=/path/to/firebase-config.json
+   GATEWAY_URL=http://localhost:8080
+   EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://localhost:8761/eureka/
    ```
 
 2. Run PostgreSQL:

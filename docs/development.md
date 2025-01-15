@@ -68,12 +68,13 @@ public class Student extends User {
     private String district;
     
     @ElementCollection
-    private Map<String, String> olResults;
+    private Map<String, Double> olResults;  // Updated to Map<String, Double> to match predictor.py
     
     @ElementCollection
-    private Map<String, String> alResults;
+    private Map<String, Double> alResults;  // Updated to Map<String, Double> to match predictor.py
     
-    private String stream;
+    private Integer stream;  // Updated to Integer to match AL_STREAMS in config.py
+    
     private double zScore;
     private double gpa;
     

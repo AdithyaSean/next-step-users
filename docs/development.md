@@ -217,6 +217,25 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 }
 ```
 
+```java
+package com.nextstep.users.model;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import java.util.UUID;
+
+@Entity
+@Data
+public class CareerPrediction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
+    private String careerName;  // Name of the predicted career (e.g., Engineering, Medicine)
+    private double probability;  // Probability of success in the predicted career (0 to 100)
+}
+```
+
 ### Conclusion
 
 This inheritance structure allows for a clean and maintainable design, where common user attributes and behaviors are centralized in the `User` entity, while specific attributes for students and institutions are added in their respective subclasses. This approach promotes code reuse and simplifies the management of different user types within the system.

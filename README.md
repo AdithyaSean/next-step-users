@@ -37,10 +37,10 @@ User management and authentication service for the Next Step platform. Handles u
    ```
 
 ## API Documentation
-See [docs/api.md](docs/api.md) for detailed API documentation.
+See [docs/api.md](docs/users-microservice-api) for detailed API documentation.
 
 ## Database Schema
-See [docs/database.md](docs/database.md) for database schema details.
+See [docs/database.md](docs/databases.md) for database schema details.
 
 ## Development Guide
-See [docs/development.md](docs/development.md) for development guidelines.
+See [docs/development.md](docs/development1.md) for development guidelines.

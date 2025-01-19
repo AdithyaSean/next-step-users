@@ -5,8 +5,8 @@ This document provides detailed information about the API endpoints that the Nex
 ---
 
 ## **Base URLs**
-- **Users Microservice**: `http://localhost:8081/users`
-- **Recommendations Microservice**: `http://localhost:8080/recommendations`
+- **Users Microservice**: `http://localhost:8080/users`
+- **Recommendations Microservice**: `http://localhost:8082/recommendations`
 
 ---
 
@@ -315,8 +315,7 @@ These updates ensure that the documentation reflects the current state of the sy
 
 ## **Additional Notes**
 - The frontend interacts with the **Users Microservice** for user management and the **Recommendations Microservice** for career predictions.
-- The **Recommendations Microservice** must be running and accessible at `http://localhost:8080/recommendations`.
-- The frontend uses Firebase for authentication and Firestore for storing user profiles.
+- The **Recommendations Microservice** must be running and accessible at application.properties configuration. do not change.
 
 For more details on the **Users Microservice** and **Recommendations Microservice**, refer to:
 - [users-microservice-api.md](docs/users-microservice-api.md)
@@ -324,13 +323,12 @@ For more details on the **Users Microservice** and **Recommendations Microservic
 
 ---
 
-This documentation should help developers integrate the frontend with the backend microservices and understand the API interactions. For further assistance, refer to the [development guide](docs/development.md).
+This documentation should help developers integrate the frontend with the backend microservices and understand the API interactions. For further assistance,
 
 ### Key Points:
 1. **Base URLs**: The frontend interacts with two microservices, so both base URLs are provided.
 2. **Endpoints**: The frontend will use endpoints from both the **Users Microservice** and **Recommendations Microservice**.
 3. **Error Responses**: Standard error responses are documented for both microservices.
-4. **Additional Notes**: The frontend uses Firebase for authentication and Firestore for storing user profiles, which is mentioned in the additional notes.
 
 This documentation should help developers understand how the frontend interacts with the backend services.
 

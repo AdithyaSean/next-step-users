@@ -5,7 +5,7 @@ User management and authentication service for the Next Step platform. Handles u
 
 ## Features
 - User registration and authentication
-- Firebase integration
+- Google OAuth2 authentication
 - Role-based access control
 - Profile management
 
@@ -13,7 +13,6 @@ User management and authentication service for the Next Step platform. Handles u
 - Spring Boot (latest-stable version)
 - PostgreSQL
 - Spring Security
-- Firebase Authentication
 
 ## Setup
 1. Configure environment variables:

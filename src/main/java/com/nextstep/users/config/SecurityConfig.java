@@ -22,6 +22,7 @@ public class SecurityConfig {
                             auth.anyRequest().authenticated();
                         })
                 .oauth2Login(Customizer.withDefaults())
+                .logout(logout -> logout.logoutSuccessUrl("/").permitAll())
                 .build();
     }
 

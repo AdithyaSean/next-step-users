@@ -18,6 +18,7 @@ target/
 *.iws
 *.iml
 *.ipr
+/.run/NextStepUsersApplication.run.xml
 
 ### NetBeans ###
 /nbproject/private/
@@ -33,5 +34,5 @@ build/
 .vscode/
 .DS_Store
 
-### Environment Variables ###
-.env
+### Environmental Variables ###
+/.env

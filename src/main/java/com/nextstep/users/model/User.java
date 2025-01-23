@@ -16,6 +16,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(nullable = false, unique = true)
+    private String username;
+
     @Column(nullable = false)
     private String name;
 
@@ -24,6 +27,15 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String telephone;
+
+    @Column(nullable = false)
+    private String school;
+
+    @Column(nullable = false)
+    private String district;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

@@ -26,9 +26,13 @@ public class UserService {
         }
 
         User user = new User();
+        user.setUsername(request.getUsername());
         user.setName(request.getName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
+        user.setTelephone(request.getTelephone());
+        user.setSchool(request.getSchool());
+        user.setDistrict(request.getDistrict());
         user.setRole(request.getRole());
 
         User savedUser = userRepository.save(user);

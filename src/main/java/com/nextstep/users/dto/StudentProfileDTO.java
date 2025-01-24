@@ -2,6 +2,7 @@ package com.nextstep.users.dto;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,5 +13,8 @@ public class StudentProfileDTO {
     private Map<String, Double> olResults;
     private Integer alStream;
     private Map<String, Double> alResults;
+    private Map<String, Double> careerProbabilities;
     private Double gpa;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

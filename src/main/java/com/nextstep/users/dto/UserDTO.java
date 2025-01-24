@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -32,4 +33,8 @@ public class UserDTO {
     private UserRole role;
 
     private boolean active;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 }

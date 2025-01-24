@@ -4,7 +4,6 @@ import com.nextstep.users.dto.UserDTO;
 import com.nextstep.users.dto.StudentDTO;
 import com.nextstep.users.dto.InstitutionDTO;
 import com.nextstep.users.dto.StudentProfileDTO;
-import com.nextstep.users.model.StudentProfile;
 import com.nextstep.users.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -58,13 +57,13 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/students/{id}/profile")
-    public ResponseEntity<StudentProfile> updateStudentProfile(@PathVariable UUID id, @Valid @RequestBody StudentProfileDTO studentProfileDTO) {
+    @PutMapping("/students/profiles/{id}")
+    public ResponseEntity<StudentProfileDTO> updateStudentProfile(@PathVariable UUID id, @Valid @RequestBody StudentProfileDTO studentProfileDTO) {
         return ResponseEntity.ok(userService.updateStudentProfile(id, studentProfileDTO));
     }
 
-    @GetMapping("/students/{id}/profile")
-    public ResponseEntity<StudentProfile> getStudentProfile(@PathVariable UUID id) {
+    @GetMapping("/students/profile/{id}")
+    public ResponseEntity<StudentProfileDTO> getStudentProfile(@PathVariable UUID id) {
         return ResponseEntity.ok(userService.getStudentProfile(id));
     }
 }

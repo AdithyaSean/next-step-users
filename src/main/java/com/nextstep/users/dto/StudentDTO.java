@@ -12,4 +12,6 @@ public class StudentDTO extends UserDTO {
 
     @NotBlank(message = "District is mandatory for students")
     private String district;
+
+    private StudentProfileDTO studentProfile;
 }

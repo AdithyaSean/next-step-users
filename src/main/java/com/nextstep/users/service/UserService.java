@@ -3,6 +3,7 @@ package com.nextstep.users.service;
 import com.nextstep.users.dto.UserDTO;
 import com.nextstep.users.dto.StudentDTO;
 import com.nextstep.users.dto.InstitutionDTO;
+import com.nextstep.users.dto.StudentProfileDTO;
 import com.nextstep.users.model.StudentProfile;
 import com.nextstep.users.model.User;
 import com.nextstep.users.model.Student;
@@ -23,7 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public UserDTO createUser(StudentDTO studentDTO) {
+    public UserDTO createStudent(StudentDTO studentDTO) {
         Student student = new Student();
         student.setUsername(studentDTO.getUsername());
         student.setName(studentDTO.getName());
@@ -33,17 +34,13 @@ public class UserService {
         student.setRole(studentDTO.getRole());
         student.setSchool(studentDTO.getSchool());
         student.setDistrict(studentDTO.getDistrict());
-
-        StudentProfile studentProfile = new StudentProfile();
-        studentProfile.setId(student.getId());
-        student.setStudentProfile(studentProfile);
-
         student = userRepository.save(student);
+
         return mapToDTO(student);
     }
 
     @Transactional
-    public UserDTO createUser(InstitutionDTO institutionDTO) {
+    public UserDTO createInstitution(InstitutionDTO institutionDTO) {
         Institution institution = new Institution();
         institution.setUsername(institutionDTO.getUsername());
         institution.setName(institutionDTO.getName());
@@ -75,14 +72,19 @@ public class UserService {
     }
 
     @Transactional
-    public StudentProfile updateStudentProfile(UUID studentId, StudentProfile updatedProfile) {
+    public StudentProfile updateStudentProfile(UUID studentId, StudentProfileDTO updatedProfileDTO) {
         Student student = (Student) userRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
         StudentProfile studentProfile = student.getStudentProfile();
-        studentProfile.setEducationLevel(updatedProfile.getEducationLevel());
-        studentProfile.setOlResults(updatedProfile.getOlResults());
-        studentProfile.setAlStream(updatedProfile.getAlStream());
-        studentProfile.setAlResults(updatedProfile.getAlResults());
-        studentProfile.setGpa(updatedProfile.getGpa());
+        if (studentProfile == null) {
+            studentProfile = new StudentProfile();
+            studentProfile.setId(studentId);
+            student.setStudentProfile(studentProfile);
+        }
+        studentProfile.setEducationLevel(updatedProfileDTO.getEducationLevel());
+        studentProfile.setOlResults(updatedProfileDTO.getOlResults());
+        studentProfile.setAlStream(updatedProfileDTO.getAlStream());
+        studentProfile.setAlResults(updatedProfileDTO.getAlResults());
+        studentProfile.setGpa(updatedProfileDTO.getGpa());
         return studentProfile;
     }
 

@@ -32,6 +32,9 @@ public abstract class User {
     @Column(nullable = false)
     private String telephone;
 
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
     @Column(nullable = false)
     private boolean active = true;
 

@@ -13,10 +13,17 @@ public class UserDTO {
     private String email;
     private String password;
     private String telephone;
-    private String school;
-    private String district;
     private UserRole role;
     private boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    // Fields specific to Student
+    private String school;
+    private String district;
+
+    // Fields specific to Institution
+    private String address;
+    private String contactPerson;
+    private String institutionType;
 }

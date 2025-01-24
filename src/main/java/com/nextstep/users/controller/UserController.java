@@ -41,6 +41,16 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
+    @GetMapping("/users/students")
+    public ResponseEntity<List<UserDTO>> getAllStudents() {
+        return ResponseEntity.ok(userService.getAllStudents());
+    }
+
+    @GetMapping("/users/institutions")
+    public ResponseEntity<List<UserDTO>> getAllInstitutions() {
+        return ResponseEntity.ok(userService.getAllInstitutions());
+    }
+
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);

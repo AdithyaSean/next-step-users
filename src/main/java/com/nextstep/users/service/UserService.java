@@ -4,10 +4,7 @@ import com.nextstep.users.dto.UserDTO;
 import com.nextstep.users.dto.StudentDTO;
 import com.nextstep.users.dto.InstitutionDTO;
 import com.nextstep.users.dto.StudentProfileDTO;
-import com.nextstep.users.model.StudentProfile;
-import com.nextstep.users.model.User;
-import com.nextstep.users.model.Student;
-import com.nextstep.users.model.Institution;
+import com.nextstep.users.model.*;
 import com.nextstep.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -64,6 +61,16 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDTO> getAllStudents() {
+        return userRepository.findAll().stream().filter(user -> user.getRole().equals(UserRole.STUDENT)).map(this::mapToDTO).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDTO> getAllInstitutions() {
+        return userRepository.findAll().stream().filter(user -> user.getRole().equals(UserRole.INSTITUTION)).map(this::mapToDTO).collect(Collectors.toList());
     }
 
     @Transactional

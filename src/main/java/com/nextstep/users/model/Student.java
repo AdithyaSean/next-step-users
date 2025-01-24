@@ -10,13 +10,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-public class Institution extends User {
+public class Student extends User {
     @Column(nullable = false)
-    private String address;
+    private String school;
 
     @Column(nullable = false)
-    private String contactPerson;
-
-    @Column(nullable = false)
-    private String institutionType;
+    private String district;
 }

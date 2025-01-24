@@ -8,10 +8,11 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public abstract class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -30,16 +31,6 @@ public class User {
 
     @Column(nullable = false)
     private String telephone;
-
-    @Column(nullable = false)
-    private String school;
-
-    @Column(nullable = false)
-    private String district;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
 
     @Column(nullable = false)
     private boolean active = true;

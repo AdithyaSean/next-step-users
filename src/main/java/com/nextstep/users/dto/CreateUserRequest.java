@@ -26,12 +26,15 @@ public class CreateUserRequest {
     @Pattern(regexp = "^[0-9]{10}$", message = "Telephone must be 10 digits")
     private String telephone;
 
-    @NotBlank(message = "School is required")
-    private String school;
-
-    @NotBlank(message = "District is required")
-    private String district;
-
     @NotNull(message = "Role is required")
     private UserRole role;
+
+    // Fields specific to Student
+    private String school;
+    private String district;
+
+    // Fields specific to Institution
+    private String address;
+    private String contactPerson;
+    private String institutionType;
 }

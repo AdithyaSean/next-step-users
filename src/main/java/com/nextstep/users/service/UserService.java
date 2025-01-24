@@ -69,6 +69,12 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public StudentProfile getStudentProfile(UUID studentId) {
+        Student student = (Student) userRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+        return student.getStudentProfile();
+    }
+
+    @Transactional(readOnly = true)
     public List<UserDTO> getAllInstitutions() {
         return userRepository.findAll().stream().filter(user -> user.getRole().equals(UserRole.INSTITUTION)).map(this::mapToDTO).collect(Collectors.toList());
     }

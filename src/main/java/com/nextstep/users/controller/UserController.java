@@ -61,4 +61,9 @@ public class UserController {
     public ResponseEntity<StudentProfile> updateStudentProfile(@PathVariable UUID id, @Valid @RequestBody StudentProfileDTO studentProfileDTO) {
         return ResponseEntity.ok(userService.updateStudentProfile(id, studentProfileDTO));
     }
+
+    @GetMapping("/users/students/{id}/profile")
+    public ResponseEntity<StudentProfile> getStudentProfile(@PathVariable UUID id) {
+        return ResponseEntity.ok(userService.getStudentProfile(id));
+    }
 }

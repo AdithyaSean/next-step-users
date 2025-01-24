@@ -1,8 +1,7 @@
 package com.nextstep.users.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,13 @@ import lombok.NoArgsConstructor;
 @Table(name = "students")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Student extends User {
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private StudentProfile studentProfile;
+
     @Column(nullable = false)
     private String school;
 

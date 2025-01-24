@@ -1,11 +1,13 @@
 package com.nextstep.users.service;
 
-import com.nextstep.users.dto.CreateUserRequest;
 import com.nextstep.users.dto.UserDTO;
-import com.nextstep.users.mapper.UserMapper;
+import com.nextstep.users.dto.StudentDTO;
+import com.nextstep.users.dto.InstitutionDTO;
+import com.nextstep.users.model.StudentProfile;
 import com.nextstep.users.model.User;
+import com.nextstep.users.model.Student;
+import com.nextstep.users.model.Institution;
 import com.nextstep.users.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,39 +19,83 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
 
     @Transactional
-    public UserDTO createUser(CreateUserRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
-        }
+    public UserDTO createUser(StudentDTO studentDTO) {
+        Student student = new Student();
+        student.setUsername(studentDTO.getUsername());
+        student.setName(studentDTO.getName());
+        student.setEmail(studentDTO.getEmail());
+        student.setPassword(studentDTO.getPassword());
+        student.setTelephone(studentDTO.getTelephone());
+        student.setRole(studentDTO.getRole());
+        student.setSchool(studentDTO.getSchool());
+        student.setDistrict(studentDTO.getDistrict());
 
-        User user = userMapper.toUser(request);
-        User savedUser = userRepository.save(user);
-        return userMapper.toUserDTO(savedUser);
+        StudentProfile studentProfile = new StudentProfile();
+        studentProfile.setId(student.getId());
+        student.setStudentProfile(studentProfile);
+
+        student = userRepository.save(student);
+        return mapToDTO(student);
+    }
+
+    @Transactional
+    public UserDTO createUser(InstitutionDTO institutionDTO) {
+        Institution institution = new Institution();
+        institution.setUsername(institutionDTO.getUsername());
+        institution.setName(institutionDTO.getName());
+        institution.setEmail(institutionDTO.getEmail());
+        institution.setPassword(institutionDTO.getPassword());
+        institution.setTelephone(institutionDTO.getTelephone());
+        institution.setRole(institutionDTO.getRole());
+        institution.setAddress(institutionDTO.getAddress());
+        institution.setContactPerson(institutionDTO.getContactPerson());
+        institution.setInstitutionType(institutionDTO.getInstitutionType());
+        institution = userRepository.save(institution);
+        return mapToDTO(institution);
     }
 
     @Transactional(readOnly = true)
     public UserDTO getUserById(UUID id) {
-        return userRepository.findById(id)
-                .map(userMapper::toUserDTO)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return mapToDTO(user);
     }
 
     @Transactional(readOnly = true)
     public List<UserDTO> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(userMapper::toUserDTO)
-                .collect(Collectors.toList());
+        return userRepository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
     @Transactional
     public void deleteUser(UUID id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-        user.setActive(false);
-        userRepository.save(user);
+        userRepository.deleteById(id);
+    }
+
+    @Transactional
+    public StudentProfile updateStudentProfile(UUID studentId, StudentProfile updatedProfile) {
+        Student student = (Student) userRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+        StudentProfile studentProfile = student.getStudentProfile();
+        studentProfile.setEducationLevel(updatedProfile.getEducationLevel());
+        studentProfile.setOlResults(updatedProfile.getOlResults());
+        studentProfile.setAlStream(updatedProfile.getAlStream());
+        studentProfile.setAlResults(updatedProfile.getAlResults());
+        studentProfile.setGpa(updatedProfile.getGpa());
+        return studentProfile;
+    }
+
+    private UserDTO mapToDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setName(user.getName());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setTelephone(user.getTelephone());
+        userDTO.setRole(user.getRole());
+        userDTO.setActive(user.isActive());
+        return userDTO;
     }
 }

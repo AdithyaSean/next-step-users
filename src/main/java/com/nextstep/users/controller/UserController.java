@@ -1,7 +1,9 @@
 package com.nextstep.users.controller;
 
-import com.nextstep.users.dto.CreateUserRequest;
 import com.nextstep.users.dto.UserDTO;
+import com.nextstep.users.dto.StudentDTO;
+import com.nextstep.users.dto.InstitutionDTO;
+import com.nextstep.users.model.StudentProfile;
 import com.nextstep.users.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +20,14 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/users")
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody CreateUserRequest request) {
-        return new ResponseEntity<>(userService.createUser(request), HttpStatus.CREATED);
+    @PostMapping("/users/students")
+    public ResponseEntity<UserDTO> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
+        return new ResponseEntity<>(userService.createUser(studentDTO), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/users/institutions")
+    public ResponseEntity<UserDTO> createInstitution(@Valid @RequestBody InstitutionDTO institutionDTO) {
+        return new ResponseEntity<>(userService.createUser(institutionDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/users/{id}")
@@ -37,5 +44,10 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/users/students/{id}/profile")
+    public ResponseEntity<StudentProfile> updateStudentProfile(@PathVariable UUID id, @Valid @RequestBody StudentProfile studentProfile) {
+        return ResponseEntity.ok(userService.updateStudentProfile(id, studentProfile));
     }
 }

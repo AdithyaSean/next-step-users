@@ -84,6 +84,12 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public UserDTO getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+        return userMapper.userToUserDTO(user);
+    }
+
+    @Transactional(readOnly = true)
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream()
                 .map(user -> {
@@ -129,5 +135,17 @@ public class UserService {
     @Transactional
     public void deleteUser(UUID id) {
         userRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public UUID authenticate(String username, String password) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (user.getPassword().equals(password)) {
+            return user.getId();
+        } else {
+            throw new RuntimeException("Invalid credentials");
+        }
     }
 }

@@ -70,16 +70,6 @@ public class UserController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate(@RequestBody Map<String, String> credentials) {
-        String username = credentials.get("username");
-        String password = credentials.get("password");
-
-        UserDTO user = userService.getUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (user.getPassword().equals(password)) {
-            return ResponseEntity.ok(user.getId().toString());
-        } else {
-            throw new RuntimeException("Invalid credentials");
-        }
+        return ResponseEntity.ok(userService.authenticate(credentials.get("username"), credentials.get("password")).toString());
     }
 }

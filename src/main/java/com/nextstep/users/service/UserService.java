@@ -30,17 +30,7 @@ public class UserService {
         student.setRole(studentDTO.getRole());
         student.setSchool(studentDTO.getSchool());
         student.setDistrict(studentDTO.getDistrict());
-
-        if (studentDTO.getStudentProfile() != null) {
-            StudentProfile studentProfile = new StudentProfile();
-            studentProfile.setEducationLevel(studentDTO.getStudentProfile().getEducationLevel());
-            studentProfile.setOlResults(studentDTO.getStudentProfile().getOlResults());
-            studentProfile.setAlStream(studentDTO.getStudentProfile().getAlStream());
-            studentProfile.setAlResults(studentDTO.getStudentProfile().getAlResults());
-            studentProfile.setCareerProbabilities(studentDTO.getStudentProfile().getCareerProbabilities());
-            studentProfile.setGpa(studentDTO.getStudentProfile().getGpa());
-            student.setStudentProfile(studentProfile);
-        }
+        student.setStudentProfile(null);
 
         student = userRepository.save(student);
         return userMapper.studentToStudentDTO(student);
@@ -139,8 +129,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UUID authenticate(String username, String password) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        UserDTO user = getUserByUsername(username);
 
         if (user.getPassword().equals(password)) {
             return user.getId();

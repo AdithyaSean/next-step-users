@@ -22,14 +22,9 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/students")
-    public ResponseEntity<UserDTO> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
-        return new ResponseEntity<>(userService.createStudent(studentDTO), HttpStatus.CREATED);
-    }
-
-    @PostMapping("/institutions")
-    public ResponseEntity<UserDTO> createInstitution(@Valid @RequestBody InstitutionDTO institutionDTO) {
-        return new ResponseEntity<>(userService.createInstitution(institutionDTO), HttpStatus.CREATED);
+    @GetMapping("/")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/{id}")
@@ -37,9 +32,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
-    @GetMapping("/")
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable UUID id) {
+        return ResponseEntity.ok(userService.deleteUser(id));
     }
 
     @GetMapping("/students")
@@ -47,23 +42,27 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllStudents());
     }
 
+    @PostMapping("/students")
+    public ResponseEntity<UserDTO> createStudent(@Valid @RequestBody StudentDTO studentDTO) {
+        return new ResponseEntity<>(userService.createStudent(studentDTO), HttpStatus.CREATED);
+    }
+
     @GetMapping("/institutions")
     public ResponseEntity<List<UserDTO>> getAllInstitutions() {
         return ResponseEntity.ok(userService.getAllInstitutions());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/institutions")
+    public ResponseEntity<UserDTO> createInstitution(@Valid @RequestBody InstitutionDTO institutionDTO) {
+        return new ResponseEntity<>(userService.createInstitution(institutionDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/students/profiles/{id}")
+    @PutMapping("/profile/{id}")
     public ResponseEntity<StudentProfileDTO> updateStudentProfile(@PathVariable UUID id, @Valid @RequestBody StudentProfileDTO studentProfileDTO) {
         return ResponseEntity.ok(userService.updateStudentProfile(id, studentProfileDTO));
     }
 
-    @GetMapping("/students/profile/{id}")
+    @GetMapping("/profile/{id}")
     public ResponseEntity<StudentProfileDTO> getStudentProfile(@PathVariable UUID id) {
         return ResponseEntity.ok(userService.getStudentProfile(id));
     }

@@ -7,6 +7,10 @@ import com.nextstep.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +22,10 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper = UserMapper.INSTANCE;
+    private final RestTemplate restTemplate;
+
+    @Value("${next-step-recommendations.url}")
+    private String nextStepRecommendationsUrl;
 
     @Transactional
     public UserDTO createStudent(StudentDTO studentDTO) {
@@ -45,12 +53,25 @@ public class UserService {
             studentProfile.setId(studentId);
             student.setStudentProfile(studentProfile);
         }
-        studentProfile.setEducationLevel(updatedProfileDTO.getEducationLevel());
-        studentProfile.setOlResults(updatedProfileDTO.getOlResults());
-        studentProfile.setAlStream(updatedProfileDTO.getAlStream());
-        studentProfile.setAlResults(updatedProfileDTO.getAlResults());
-        studentProfile.setCareerProbabilities(updatedProfileDTO.getCareerProbabilities());
-        studentProfile.setGpa(updatedProfileDTO.getGpa());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("UUID", studentId.toString());
+
+        HttpEntity<StudentProfileDTO> requestEntity = new HttpEntity<>(updatedProfileDTO, headers);
+
+        String predictionServiceUrl = nextStepRecommendationsUrl + "/predictions/career-prediction";
+        StudentProfileDTO updatedProfileWithProbabilities = restTemplate.postForObject(predictionServiceUrl, requestEntity, StudentProfileDTO.class);
+        assert updatedProfileWithProbabilities != null;
+
+        studentProfile.setEducationLevel(updatedProfileWithProbabilities.getEducationLevel());
+        studentProfile.setOlResults(updatedProfileWithProbabilities.getOlResults());
+        studentProfile.setAlStream(updatedProfileWithProbabilities.getAlStream());
+        studentProfile.setAlResults(updatedProfileWithProbabilities.getAlResults());
+        studentProfile.setCareerProbabilities(updatedProfileWithProbabilities.getCareerProbabilities());
+        studentProfile.setGpa(updatedProfileWithProbabilities.getGpa());
+
+        userRepository.save(student);
+
         return userMapper.studentProfileToStudentProfileDTO(studentProfile);
     }
 
@@ -123,8 +144,8 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(UUID id) {
-        userRepository.deleteById(id);
+    public String deleteUser(UUID id) {
+        return userRepository.findById(id).map(user -> { userRepository.delete(user); return "User deleted successfully"; }).orElse("User not found");
     }
 
     @Transactional(readOnly = true)

@@ -29,7 +29,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<UserDTO> registerStudent(@Valid @RequestBody StudentDTO studentDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(studentService.createStudent(studentDTO));
     }

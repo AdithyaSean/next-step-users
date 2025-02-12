@@ -6,6 +6,7 @@ import com.nextstep.users.mapper.StudentMapper;
 import com.nextstep.users.model.Student;
 import com.nextstep.users.model.StudentProfile;
 import com.nextstep.users.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,12 +22,13 @@ import java.util.stream.Collectors;
 public class StudentService {
 
     private final UserRepository userRepository;
-    private final StudentMapper studentMapper = StudentMapper.INSTANCE;
+    private final StudentMapper studentMapper = new StudentMapper();
     private final RestTemplate restTemplate;
 
     @Value("${next-step-recommendations.url}")
     private String nextStepRecommendationsUrl;
 
+    @Autowired
     public StudentService(UserRepository userRepository, RestTemplate restTemplate) {
         this.userRepository = userRepository;
         this.restTemplate = restTemplate;
